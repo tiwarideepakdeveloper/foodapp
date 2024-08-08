@@ -14,7 +14,7 @@ export class AppUtility {
         return jwt.sign({ id: _id }, process.env.JWT_SECRET, { expiresIn: '1h' });;
     }
 
-    static getDefaultImg(){
-        return process.cwd()+'/src/assets/default.png';
+    static getDefaultImg() {
+        return process.cwd() + '/src/assets/default.png';
     }
 }

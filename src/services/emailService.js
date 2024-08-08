@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 
 export class emailServices {
     #transporter;
-    constructor(){
+    constructor() {
         this.#transporter = this.#createTransport();
     }
     sendMail = (to, emailTemplate, byCron = true) => {
@@ -12,7 +12,7 @@ export class emailServices {
             from: `${process.env.APP_NAME} <${process.env.SMTP_FROM}>`,
             to, subject, html
         };
-        if(byCron){
+        if (byCron) {
             return true;
         }
         this.#transporter.sendMail(mailOptions, (error, info) => {

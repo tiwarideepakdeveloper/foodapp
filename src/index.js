@@ -13,9 +13,9 @@ app.use(bodyParser.json());
 dotenv.config();
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URL).then(()=>{
+mongoose.connect(process.env.MONGO_URL).then(() => {
     console.log("Database connected successfull.");
-    app.listen(process.env.PORT, ()=>{
+    app.listen(process.env.PORT, '0.0.0.0', () => {
         console.log(`Running on port ${process.env.PORT}`);
     });
 }).catch((error) => {

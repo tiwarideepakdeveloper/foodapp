@@ -19,6 +19,6 @@ const emailTemplateSchema = new mongoose.Schema({
     }
 });
 
-emailTemplateSchema.index({identifier: 1, langId: 1}, {unique: true});
+emailTemplateSchema.index({ identifier: 1, langId: 1 }, { unique: true });
 
 export default mongoose.model('EmailTemplate', emailTemplateSchema);

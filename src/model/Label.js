@@ -23,7 +23,7 @@ labelSchema.statics.getLabel = async function(key, code = 'en') {
         return selfClass.translations[code];
     } catch (error) {
         console.log(error);
-        return 'SERVER ERROR | DB ERROR';
+        return 'SERVER IS DOWN PLEASE TRY AFTER SOME TIME!';
     }
 }
 

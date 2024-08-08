@@ -6,7 +6,7 @@ import Label from "../model/Label.js"
 export const getDataByPageType = async (req, res) => {
     try {
         const { page } = req.params;
-        if(!page){
+        if (!page) {
             return ResponseHandler.badRequest(res, await Label.getLabel('CoNTENT_PAGE_NOT_FOUND'));
         }
         let cmsData = await Cms.find({ page }, { data: 1 });
@@ -14,7 +14,7 @@ export const getDataByPageType = async (req, res) => {
             elem.data.title = elem.data?.translations?.en?.title || elem.data.title;
             elem.data.desc = elem.data?.translations?.en?.desc || elem.data.desc;
             delete elem.data?.translations;
-            return elem.data;
+            return elem;
         });
         return ResponseHandler.success(res, await Label.getLabel('SUCCESS'), cmsData);
     } catch (error) {

@@ -11,18 +11,18 @@ import User from "../model/User.js";
 export const register = async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
     try {
-        const existUser = await User.findOne({email});
-        if(existUser){
+        const existUser = await User.findOne({ email });
+        if (existUser) {
             return ResponseHandler.badRequest(res, await Label.getLabel('USER_ALREADY_EXIST'))
         }
         const user = new User({ firstName, lastName, email, password: await AppUtility.hashPassword(password) });
         user.otpInfo = {
-            otp: AppUtility.genrateOtp(), 
+            otp: AppUtility.genrateOtp(),
             expire: moment().add(6, 'minutes')
         };
         await sendActivationMail(existUser);
         return ResponseHandler.created(
-            res, 
+            res,
             await Label.getLabel('USER_REGISTERED_SUCCESSFULLY!'),
             await user.save()
         );
@@ -34,13 +34,13 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
     const { email, password } = req.body;
     try {
-        let user = await User.findOne({email});
-        if(!user){
+        let user = await User.findOne({ email });
+        if (!user) {
             return ResponseHandler.badRequest(res, await Label.getLabel('USER_IS_NOT_REGISTERED!'));
         }
-        if(!(await user.verifyPassword(password))){
+        if (!(await user.verifyPassword(password))) {
             return ResponseHandler.unauthorized(
-                res, 
+                res,
                 await Label.getLabel('YOUR_PASSWORD_IS_NOT_CORRECT')
             );
         }
@@ -56,15 +56,15 @@ export const forgetPassword = async (req, res) => {
     try {
         const { email } = req.body;
         const existUser = await User.findOne({ email });
-        if(!existUser){
+        if (!existUser) {
             return ResponseHandler.badRequest(res, await Label.getLabel('USER_NOT_FOUND'));
         }
         existUser.otpInfo = {
-            otp: AppUtility.genrateOtp(), 
+            otp: AppUtility.genrateOtp(),
             expire: moment().add(6, 'minutes')
         };
         await existUser.save();
-        
+
         /** Send Otp Email */
         await sendActivationMail(existUser);
         return ResponseHandler.success(res, await Label.getLabel('OTP_SENT_ON_YOUR_EMAIL'));
@@ -78,10 +78,10 @@ export const verifyOtp = async (req, res) => {
     try {
         const { email, otp } = req.body;
         const existUser = await User.findOne({ email });
-        if(!existUser){
+        if (!existUser) {
             return ResponseHandler.badRequest(res, await Label.getLabel('USER_NOT_FOUND'));
         }
-        if(existUser.otpInfo.otp != otp || existUser.otpInfo.expire < moment()){
+        if (existUser.otpInfo.otp != otp || existUser.otpInfo.expire < moment()) {
             return ResponseHandler.badRequest(res, await Label.getLabel('INVALID_OTP_OR_OTP_EXPIRED'));
         }
         existUser.isVerified = true;
@@ -110,7 +110,7 @@ export const updatePassword = async (req, res) => {
 
 const sendActivationMail = async (user) => {
     const emailTemplate = await EmailTemplate.findOne({ langId: 1, identifier: 'user_send_otp_email' });
-    if(!emailTemplate){
+    if (!emailTemplate) {
         return false;
     }
     emailTemplate.body = emailTemplate.body.replace('{otp}', user.otpInfo.otp);

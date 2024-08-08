@@ -32,11 +32,11 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-userSchema.methods.verifyPassword = async function(password) {
+userSchema.methods.verifyPassword = async function (password) {
     return await bcrypt.compare(password, this.password);
 };
 
-userSchema.methods.toJSON = function() {
+userSchema.methods.toJSON = function () {
     const user = this.toObject();
     delete user.password;
     delete user.otpInfo;

@@ -5,7 +5,7 @@ export const showImage = async (req, res) => {
     try {
         const { recordId, type } = req.params;
         const image = await Image.findOne({ recordId, type });
-        if(!image){
+        if (!image) {
             return res.sendFile(AppUtility.getDefaultImg());
         }
         return res.sendFile(image.path);
