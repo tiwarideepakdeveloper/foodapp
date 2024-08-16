@@ -6,6 +6,7 @@ import userRoute from "./routes/userRoutes.js";
 import authRoute from "./routes/authRoutes.js";
 import imageRoute from "./routes/imageRoutes.js";
 import settingRoute from "./routes/settingRoutes.js";
+import rolesRoute from "./routes/roleRoutes.js";
 
 const app = express();
 
@@ -34,3 +35,7 @@ app.use("/api/image", imageRoute);
 
 // Image Manage Route
 app.use("/api/setting", settingRoute);
+
+
+// Rile Manage Route
+app.use("/api/role", rolesRoute);
