@@ -13,7 +13,7 @@ export const register = async (req, res) => {
     try {
         const existUser = await User.findOne({ email });
         if (existUser) {
-            return ResponseHandler.badRequest(res, await Label.getLabel('USER_ALREADY_EXIST'))
+            return ResponseHandler.badRequest(res, await Label.getLabel('USER_ALREADY_EXIST', req.langCode))
         }
         const user = new User({ firstName, lastName, email, password: await AppUtility.hashPassword(password) });
         user.otpInfo = {
@@ -23,11 +23,11 @@ export const register = async (req, res) => {
         await sendActivationMail(existUser);
         return ResponseHandler.created(
             res,
-            await Label.getLabel('USER_REGISTERED_SUCCESSFULLY!'),
+            await Label.getLabel('USER_REGISTERED_SUCCESSFULLY!', req.langCode),
             await user.save()
         );
     } catch (error) {
-        return ResponseHandler.serverError(res, await Label.getLabel('SERVER_ERROR'), error);
+        return ResponseHandler.serverError(res, await Label.getLabel('SERVER_ERROR', req.langCode), error);
     }
 }
 
@@ -36,19 +36,19 @@ export const login = async (req, res) => {
     try {
         let user = await User.findOne({ email });
         if (!user) {
-            return ResponseHandler.badRequest(res, await Label.getLabel('USER_IS_NOT_REGISTERED!'));
+            return ResponseHandler.badRequest(res, await Label.getLabel('USER_IS_NOT_REGISTERED!', req.langCode));
         }
         if (!(await user.verifyPassword(password))) {
             return ResponseHandler.unauthorized(
                 res,
-                await Label.getLabel('YOUR_PASSWORD_IS_NOT_CORRECT')
+                await Label.getLabel('YOUR_PASSWORD_IS_NOT_CORRECT', req.langCode)
             );
         }
         user = user.toJSON();
         user.token = AppUtility.genrateJwtToken(user._id);
-        return ResponseHandler.success(res, await Label.getLabel('USER_LOGGEDIN_SUCCESS'), user);
+        return ResponseHandler.success(res, await Label.getLabel('USER_LOGGEDIN_SUCCESS', req.langCode), user);
     } catch (error) {
-        return ResponseHandler.serverError(res, await Label.getLabel('SERVER_ERROR'));
+        return ResponseHandler.serverError(res, await Label.getLabel('SERVER_ERROR', req.langCode));
     }
 }
 
@@ -57,7 +57,7 @@ export const forgetPassword = async (req, res) => {
         const { email } = req.body;
         const existUser = await User.findOne({ email });
         if (!existUser) {
-            return ResponseHandler.badRequest(res, await Label.getLabel('USER_NOT_FOUND'));
+            return ResponseHandler.badRequest(res, await Label.getLabel('USER_NOT_FOUND', req.langCode));
         }
         existUser.otpInfo = {
             otp: AppUtility.genrateOtp(),
@@ -67,9 +67,9 @@ export const forgetPassword = async (req, res) => {
 
         /** Send Otp Email */
         await sendActivationMail(existUser);
-        return ResponseHandler.success(res, await Label.getLabel('OTP_SENT_ON_YOUR_EMAIL'));
+        return ResponseHandler.success(res, await Label.getLabel('OTP_SENT_ON_YOUR_EMAIL', req.langCode));
     } catch (error) {
-        return ResponseHandler.serverError(res, await Label.getLabel('SERVER_ERROR'));
+        return ResponseHandler.serverError(res, await Label.getLabel('SERVER_ERROR', req.langCode));
     }
 }
 
@@ -79,19 +79,19 @@ export const verifyOtp = async (req, res) => {
         const { email, otp } = req.body;
         const existUser = await User.findOne({ email });
         if (!existUser) {
-            return ResponseHandler.badRequest(res, await Label.getLabel('USER_NOT_FOUND'));
+            return ResponseHandler.badRequest(res, await Label.getLabel('USER_NOT_FOUND', req.langCode));
         }
         if (existUser.otpInfo.otp != otp || existUser.otpInfo.expire < moment()) {
-            return ResponseHandler.badRequest(res, await Label.getLabel('INVALID_OTP_OR_OTP_EXPIRED'));
+            return ResponseHandler.badRequest(res, await Label.getLabel('INVALID_OTP_OR_OTP_EXPIRED', req.langCode));
         }
         existUser.isVerified = true;
         await existUser.save();
 
         const user = existUser.toJSON();
         user.token = AppUtility.genrateJwtToken(user._id);
-        return ResponseHandler.success(res, await Label.getLabel('OTP_VERIFIED_SUCCESS'), user);
+        return ResponseHandler.success(res, await Label.getLabel('OTP_VERIFIED_SUCCESS', req.langCode), user);
     } catch (error) {
-        return ResponseHandler.serverError(res, await Label.getLabel('SERVER_ERROR'));
+        return ResponseHandler.serverError(res, await Label.getLabel('SERVER_ERROR', req.langCode));
     }
 }
 
@@ -102,9 +102,9 @@ export const updatePassword = async (req, res) => {
         const user = await User.findOne({ email: req.user.email });
         user.password = await AppUtility.hashPassword(password);
         await user.save();
-        return ResponseHandler.success(res, await Label.getLabel('YOUR_PASSWORD_UPDATED'));
+        return ResponseHandler.success(res, await Label.getLabel('YOUR_PASSWORD_UPDATED', req.langCode));
     } catch (error) {
-        return ResponseHandler.serverError(res, await Label.getLabel('SERVER_ERROR'));
+        return ResponseHandler.serverError(res, await Label.getLabel('SERVER_ERROR', req.langCode));
     }
 }
 

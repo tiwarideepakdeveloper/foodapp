@@ -1,9 +1,13 @@
 import express from 'express';
-import { getData, setup } from '../controller/roleController.js';
+import { fetchRecords, saveRecord, updateRecord, deleteRecord } from '../controller/roleController.js';
+import { auth } from '../middleware/authMiddleware.js';
+import { checkPermission } from '../middleware/rbacMiddleware.js';
 
 const rolesRoute = express.Router();
 
-rolesRoute.get('/', getData);
-rolesRoute.post('/setup', setup);
+rolesRoute.get('/:page?', [auth, checkPermission('role_view')], fetchRecords);
+rolesRoute.post('/', [auth, checkPermission('role_create')], saveRecord);
+rolesRoute.put('/:roleId', [auth, checkPermission('role_update')], updateRecord);
+rolesRoute.delete('/:roleId', [auth, checkPermission('role_delete')], deleteRecord);
 
 export default rolesRoute;

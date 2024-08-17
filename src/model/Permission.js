@@ -2,6 +2,12 @@ import Label from "./Label.js";
 
 export default class Permission {
     #error = '';
+    #langCode;
+
+    constructor(langCode = 'en') {
+        this.#langCode = langCode;
+    }
+
     static getPermissions = function () {
         return [
             'user_view',
@@ -24,13 +30,17 @@ export default class Permission {
             'pmethod_create',
             'pmethod_update',
             'pmethod_delete',
+            'role_view',
+            'role_create',
+            'role_update',
+            'role_delete',
         ];
     }
 
     validatePermissions = async (permissions) => {
         const exisitPermission = Permission.getPermissions().filter((elem) => permissions.includes(elem));
         if (exisitPermission.length != permissions.length) {
-            this.#error = await Label.getLabel('INVALID_PERMISSIONS');
+            this.#error = await Label.getLabel('INVALID_PERMISSIONS', this.#langCode);
             return false;
         }
         return true;

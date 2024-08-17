@@ -19,8 +19,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    role: {
-        type: String,
+    role_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Role'
     },
     isVerified: {
         type: Boolean,
@@ -33,7 +34,7 @@ const userSchema = new mongoose.Schema({
     otpInfo: {
         type: Object,
     }
-});
+}, { timestamps: true });
 
 userSchema.methods.verifyPassword = async function (password) {
     return await bcrypt.compare(password, this.password);

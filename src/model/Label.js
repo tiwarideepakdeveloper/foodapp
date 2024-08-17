@@ -10,11 +10,11 @@ const labelSchema = new mongoose.Schema({
     }
 });
 
-labelSchema.statics.getLabel = async function(key, code = 'en') {
+labelSchema.statics.getLabel = async function (key, code = 'en') {
     try {
         const existLabel = await this.findOne({ key });
-        if(existLabel){
-            return existLabel.code;
+        if (existLabel) {
+            return existLabel.translations[code];
         }
         const selfClass = new this({ key });
         selfClass.translations = selfClass.translations || {};

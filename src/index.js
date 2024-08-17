@@ -7,6 +7,7 @@ import authRoute from "./routes/authRoutes.js";
 import imageRoute from "./routes/imageRoutes.js";
 import settingRoute from "./routes/settingRoutes.js";
 import rolesRoute from "./routes/roleRoutes.js";
+import { appData } from "./middleware/appMiddleware.js";
 
 const app = express();
 
@@ -23,19 +24,8 @@ mongoose.connect(process.env.MONGO_URL).then(() => {
     console.log(error);
 });
 
-// Auth Routes
-app.use("/api/auth", authRoute);
-
-// User Manage Route
-app.use("/api/user", userRoute);
-
-// Image Manage Route
-app.use("/api/image", imageRoute);
-
-
-// Image Manage Route
-app.use("/api/setting", settingRoute);
-
-
-// Rile Manage Route
-app.use("/api/role", rolesRoute);
+app.use("/api/auth", appData, authRoute);
+app.use("/api/user", appData, userRoute);
+app.use("/api/image", appData, imageRoute);
+app.use("/api/setting", appData, settingRoute);
+app.use("/api/role", appData, rolesRoute);

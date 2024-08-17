@@ -30,6 +30,13 @@ export class ResponseHandler {
         });
     }
 
+    static accessDenied(res, message) {
+        res.status(403).json({
+            success: false,
+            message
+        });
+    }
+
     static serverError(res, message, error = {}) {
         res.status(500).json({
             success: false,

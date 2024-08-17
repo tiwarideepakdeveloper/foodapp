@@ -8,7 +8,7 @@ export const getDataByPageType = async (req, res) => {
     try {
         const { page } = req.params;
         if (!page) {
-            return ResponseHandler.badRequest(res, await Label.getLabel('CONTENT_PAGE_NOT_FOUND'));
+            return ResponseHandler.badRequest(res, await Label.getLabel('CONTENT_PAGE_NOT_FOUND', req.langCode));
         }
 
         let cmsData = await Cms.find({ page }, { data: 1 });
@@ -23,9 +23,9 @@ export const getDataByPageType = async (req, res) => {
                 });
                 break;
         }
-        return ResponseHandler.success(res, await Label.getLabel('SUCCESS'), cmsData);
+        return ResponseHandler.success(res, await Label.getLabel('SUCCESS', req.langCode), cmsData);
     } catch (error) {
         console.log(error);
-        return ResponseHandler.serverError(res, await Label.getLabel('SERVER_ERROR'));
+        return ResponseHandler.serverError(res, await Label.getLabel('SERVER_ERROR', req.langCode));
     }
 }
