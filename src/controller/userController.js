@@ -2,6 +2,7 @@ import { AppConstant } from "../constants/AppConstant.js";
 import { ResponseHandler } from "../utility/responseHandler.js";
 import Label from "../model/Label.js";
 import User from "../model/User.js";
+import { AppUtility } from "../utility/AppUtility.js";
 
 export const fetchRecords = async (req, res) => {
     try {
@@ -21,27 +22,53 @@ export const fetchRecords = async (req, res) => {
 export const saveRecord = async (req, res) => {
     try {
         const { firstName, lastName, email, password, role_id, isActive } = req.body;
-        const user = new User.findById({ firstName, lastName, email, password, role_id, isActive, isVerified: true });
+        const user = new User({ firstName, lastName, email, password, role_id, isActive, isVerified: true });
         if (!await user.save()) {
+            return ResponseHandler.badRequest(res, await Label.getLabel('ERROR_FOUND_IN_OPERATIONS', req.langCode));
+        }
+        return ResponseHandler.success(res, await Label.getLabel('SUCCESS', req.langCode));
+    } catch (error) {
+        console.log(error);
+        return ResponseHandler.badRequest(res, await Label.getLabel('ERROR_FOUND_IN_OPERATIONS', req.langCode));
+    }
+}
+
+export const updateRecord = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const user = await User.findById(userId);
+        if (!user) {
+            return ResponseHandler.badRequest(res, await Label.getLabel('USER_NOT_FOUND', req.langCode));
+        }
+        const { firstName, lastName, email, password, role_id, isActive } = req.body;
+        user.firstName = firstName;
+        user.lastName = lastName;
+        user.email = email;
+        user.role_id = role_id;
+        user.isActive = isActive;
+        user.password = AppUtility.hashPassword(password);
+        await user.save();
+        return ResponseHandler.success(res, await Label.getLabel('SUCCESS', req.langCode), user);
+    } catch (error) {
+        return ResponseHandler.badRequest(res, await Label.getLabel('ERROR_FOUND_IN_OPERATIONS', req.langCode));
+    }
+}
+
+export const deleteRecord = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        if (!userId) {
+            return ResponseHandler.badRequest(res, await Label.getLabel('INVALID_REQUEST', req.langCode));
+        }
+        const user = await User.findById(userId);
+        if (!user) {
+            return ResponseHandler.badRequest(res, await Label.getLabel('INVALID_REQUEST', req.langCode));
+        }
+        if (!await user.deleteOne()) {
             return ResponseHandler.badRequest(res, await Label.getLabel('ERROR_FOUND_IN_OPERATIONS', req.langCode));
         }
         return ResponseHandler.success(res, await Label.getLabel('SUCCESS', req.langCode));
     } catch (error) {
         return ResponseHandler.badRequest(res, await Label.getLabel('ERROR_FOUND_IN_OPERATIONS', req.langCode));
     }
-}
-
-export const updateRecord = async (req, res) => {
-    const { userId } = req.params;
-    const user = await User.findById(userId);
-    if (!user) {
-        return ResponseHandler.badRequest(res, await Label.getLabel('USER_NOT_FOUND', req.langCode));
-    }
-    user.firstName;
-    await exisitUser.save();
-    return ResponseHandler.success(res, await Label.getLabel('SUCCESS', req.langCode), req.user);
-}
-
-export const deleteRecord = async (req, res) => {
-
 }

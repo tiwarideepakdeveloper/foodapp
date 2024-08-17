@@ -1,7 +1,7 @@
 import express from 'express';
-import { fetchRecords, saveRecord, updateRecord, deleteRecord } from '../controller/roleController.js';
 import { auth } from '../middleware/authMiddleware.js';
 import { checkPermission } from '../middleware/rbacMiddleware.js';
+import { fetchRecords, saveRecord, updateRecord, deleteRecord } from '../controller/roleController.js';
 
 const rolesRoute = express.Router();
 

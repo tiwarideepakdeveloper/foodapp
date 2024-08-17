@@ -14,7 +14,6 @@ const app = express();
 app.use(bodyParser.json());
 dotenv.config();
 
-// Connect to MongoDB
 mongoose.connect(process.env.MONGO_URL).then(() => {
     console.log("Database connected successfull.");
     app.listen(process.env.PORT, '0.0.0.0', () => {

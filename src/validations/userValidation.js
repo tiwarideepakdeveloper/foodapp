@@ -13,6 +13,12 @@ export const updateSchema = Joi.object({
     }),
     password: Joi.string().min(6).messages({
         'string.min': 'PASSWORD_MUST_BE_6_CHARACTER_LONG',
+    }),
+    role_id: Joi.string().required().messages({
+        'string.empty': 'ROLE_IS_REQUIRED'
+    }),
+    isActive: Joi.bool().required().messages({
+        'string.empty': 'USER_ACTIVE_IS_REQUIRED'
     })
 });
 

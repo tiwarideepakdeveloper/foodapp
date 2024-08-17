@@ -11,7 +11,7 @@ export class AppUtility {
     };
 
     static genrateJwtToken(_id) {
-        return jwt.sign({ id: _id }, process.env.JWT_SECRET, { expiresIn: '1h' });;
+        return jwt.sign({ id: _id }, process.env.JWT_SECRET, { expiresIn: '12h' });;
     }
 
     static getDefaultImg() {

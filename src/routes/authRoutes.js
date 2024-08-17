@@ -1,8 +1,8 @@
 import express from "express";
-import { forgetPassword, login, register, updatePassword, verifyOtp } from "../controller/authController.js";
-import { forgetPassSchema, loginSchema, registerSchema, updatePassSchema, verifyOtpSchema } from "../validations/authValidation.js";
 import { validate } from "../middleware/validate.js";
 import { auth } from "../middleware/authMiddleware.js";
+import { forgetPassSchema, loginSchema, registerSchema, updatePassSchema, verifyOtpSchema } from "../validations/authValidation.js";
+import { forgetPassword, login, register, updatePassword, verifyOtp } from "../controller/authController.js";
 
 const authRoute = express.Router();
 
