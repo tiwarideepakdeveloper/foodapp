@@ -108,6 +108,41 @@ export const updatePassword = async (req, res) => {
     }
 }
 
+export const fetchProfile = async (req, res) => {
+    try {
+        const { id } = req.user;
+        return ResponseHandler.success(res, await Label.getLabel('YOUR_PASSWORD_UPDATED', req.langCode), await User.findById(id));
+    } catch (error) {
+        return ResponseHandler.serverError(res, await Label.getLabel('SERVER_ERROR', req.langCode));
+    }
+}
+
+export const updateProfile = async (req, res) => {
+    try {
+        const { id } = req.user;
+        const { firstName, lastName, email } = req.body;
+        const user = await User.findOne(id);
+        user.firstName = firstName;
+        user.lastName = lastName;
+        user.email = email;
+        if (!await user.save()) {
+            return ResponseHandler.serverError(res, await Label.getLabel('SERVER_ERROR', req.langCode));
+        }
+        return ResponseHandler.success(res, await Label.getLabel('YOUR_PROFILE_UPDATED', req.langCode), user);
+    } catch (error) {
+        return ResponseHandler.serverError(res, await Label.getLabel('SERVER_ERROR', req.langCode));
+    }
+}
+
+export const updateProfileImg = async (req, res) => {
+    try {
+        const { id } = req.user;
+        return ResponseHandler.success(res, await Label.getLabel('YOUR_PROFILE_IMAGE_UPDATED', req.langCode));
+    } catch (error) {
+        return ResponseHandler.serverError(res, await Label.getLabel('SERVER_ERROR', req.langCode));
+    }
+}
+
 const sendActivationMail = async (user) => {
     const emailTemplate = await EmailTemplate.findOne({ langId: 1, identifier: 'user_send_otp_email' });
     if (!emailTemplate) {

@@ -1,8 +1,8 @@
 import express from "express";
 import { validate } from "../middleware/validate.js";
 import { auth } from "../middleware/authMiddleware.js";
-import { forgetPassSchema, loginSchema, registerSchema, updatePassSchema, verifyOtpSchema } from "../validations/authValidation.js";
-import { forgetPassword, login, register, updatePassword, verifyOtp } from "../controller/authController.js";
+import { forgetPassSchema, loginSchema, registerSchema, updatePassSchema, verifyOtpSchema, updateProfileSchema } from "../validations/authValidation.js";
+import { forgetPassword, login, register, updatePassword, verifyOtp, fetchProfile, updateProfileImg } from "../controller/authController.js";
 
 const authRoute = express.Router();
 
@@ -11,6 +11,8 @@ authRoute.post('/login', validate(loginSchema), login);
 
 authRoute.post('/forget-password', validate(forgetPassSchema), forgetPassword);
 authRoute.post('/verify-otp', validate(verifyOtpSchema), verifyOtp);
-authRoute.post('/update-password', [validate(updatePassSchema), auth], updatePassword);
+authRoute.post('/update-password', [auth, validate(updatePassSchema)], updatePassword);
 
+authRoute.post('/update-profile', [auth, validate(updateProfileSchema)], fetchProfile);
+authRoute.post('/update-profile-img', auth, updateProfileImg);
 export default authRoute;

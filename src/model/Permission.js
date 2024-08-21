@@ -38,8 +38,8 @@ export default class Permission {
     }
 
     validatePermissions = async (permissions) => {
-        const exisitPermission = Permission.getPermissions().filter((elem) => permissions.includes(elem));
-        if (exisitPermission.length != permissions.length) {
+        const exisitPermission = Permission.getPermissions().filter((elem) => !permissions.includes(elem));
+        if (exisitPermission.length) {
             this.#error = await Label.getLabel('INVALID_PERMISSIONS', this.#langCode);
             return false;
         }

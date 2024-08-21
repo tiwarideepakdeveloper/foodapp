@@ -21,8 +21,8 @@ export const fetchRecords = async (req, res) => {
 
 export const saveRecord = async (req, res) => {
     try {
-        const { firstName, lastName, email, password, role_id, isActive } = req.body;
-        const user = new User({ firstName, lastName, email, password, role_id, isActive, isVerified: true });
+        const { firstName, lastName, email, password, roleId, isActive } = req.body;
+        const user = new User({ firstName, lastName, email, password, roleId, isActive, isVerified: true });
         if (!await user.save()) {
             return ResponseHandler.badRequest(res, await Label.getLabel('ERROR_FOUND_IN_OPERATIONS', req.langCode));
         }
@@ -40,11 +40,11 @@ export const updateRecord = async (req, res) => {
         if (!user) {
             return ResponseHandler.badRequest(res, await Label.getLabel('USER_NOT_FOUND', req.langCode));
         }
-        const { firstName, lastName, email, password, role_id, isActive } = req.body;
+        const { firstName, lastName, email, password, roleId, isActive } = req.body;
         user.firstName = firstName;
         user.lastName = lastName;
         user.email = email;
-        user.role_id = role_id;
+        user.roleId = roleId;
         user.isActive = isActive;
         user.password = AppUtility.hashPassword(password);
         await user.save();

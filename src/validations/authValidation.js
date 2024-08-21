@@ -55,3 +55,16 @@ export const updatePassSchema = Joi.object({
         'any.only': 'CONFIRM_PASSWORD_DOES_NOT_MATCH',
     })
 });
+
+export const updateProfileSchema = Joi.object({
+    firstName: Joi.string().required().messages({
+        'string.empty': 'FIRSTNAME_IS_REQUIRED',
+    }),
+    lastName: Joi.string().required().messages({
+        'string.empty': 'LASTNAME_IS_REQUIRED',
+    }),
+    email: Joi.string().email().required().messages({
+        'string.email': 'PLEASE_PROVIDE_A_VALID_EMAIL',
+        'string.empty': 'EMAIL_IS_REQUIRED'
+    }),
+});

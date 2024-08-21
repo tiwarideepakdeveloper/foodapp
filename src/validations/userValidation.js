@@ -14,7 +14,7 @@ export const updateSchema = Joi.object({
     password: Joi.string().min(6).messages({
         'string.min': 'PASSWORD_MUST_BE_6_CHARACTER_LONG',
     }),
-    role_id: Joi.string().required().messages({
+    roleId: Joi.string().required().messages({
         'string.empty': 'ROLE_IS_REQUIRED'
     }),
     isActive: Joi.bool().required().messages({
@@ -33,7 +33,7 @@ export const createSchema = Joi.object({
         'string.email': 'PLEASE_PROVIDE_A_VALID_EMAIL',
         'string.empty': 'EMAIL_IS_REQUIRED'
     }),
-    role_id: Joi.string().required().messages({
+    roleId: Joi.string().required().messages({
         'string.empty': 'ROLE_IS_REQUIRED'
     }),
     password: Joi.string().required().min(6).messages({
