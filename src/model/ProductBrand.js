@@ -9,6 +9,10 @@ const brandSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    isActive: {
+        type: Boolean,
+        required: true,
+    },
     translations: {
         type: Object, // code : {name: '', desc: ''}
     }
