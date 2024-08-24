@@ -9,6 +9,9 @@ import settingRoute from "./routes/settingRoutes.js";
 import rolesRoute from "./routes/roleRoutes.js";
 import { appData } from "./middleware/appMiddleware.js";
 import categoryRoute from "./routes/categoryRoutes.js";
+import brandRoute from "./routes/brandRoutes.js";
+import productOptionRoute from "./routes/productOptionRoutes.js";
+import manageProductRoute from "./routes/manageProductRoutes.js";
 
 const app = express();
 
@@ -30,3 +33,6 @@ app.use("/api/image", appData, imageRoute);
 app.use("/api/setting", appData, settingRoute);
 app.use("/api/role", appData, rolesRoute);
 app.use("/api/category", appData, categoryRoute);
+app.use("/api/brand", appData, brandRoute);
+app.use("/api/product-option", appData, productOptionRoute);
+app.use("/api/manage-product", appData, manageProductRoute);
