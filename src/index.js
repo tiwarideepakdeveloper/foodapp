@@ -8,6 +8,7 @@ import imageRoute from "./routes/imageRoutes.js";
 import settingRoute from "./routes/settingRoutes.js";
 import rolesRoute from "./routes/roleRoutes.js";
 import { appData } from "./middleware/appMiddleware.js";
+import categoryRoute from "./routes/categoryRoutes.js";
 
 const app = express();
 
@@ -28,3 +29,4 @@ app.use("/api/user", appData, userRoute);
 app.use("/api/image", appData, imageRoute);
 app.use("/api/setting", appData, settingRoute);
 app.use("/api/role", appData, rolesRoute);
+app.use("/api/category", appData, categoryRoute);

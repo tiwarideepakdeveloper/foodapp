@@ -17,4 +17,8 @@ export class AppUtility {
     static getDefaultImg() {
         return process.cwd() + '/src/assets/default.png';
     }
+
+    static strToSlug(str) {
+        return str.toLowerCase().replace(/ /g, "-").replace(/[^\w-]+/g, "");
+    }
 }

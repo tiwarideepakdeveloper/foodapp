@@ -13,6 +13,10 @@ const categorySchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'ProductCategory'
     },
+    isActive: {
+        type: Boolean,
+        required: true
+    },
     translations: {
         type: Object, // code : {name: '', desc: ''}
     }
