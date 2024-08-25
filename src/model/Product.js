@@ -17,6 +17,10 @@ const productSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'ProductBrand'
     },
+    isActive: {
+        type: Boolean,
+        required: true,
+    },
     translations: {
         type: Object, // code : {name: '', desc: '', careInstructions: ''}
     }

@@ -62,7 +62,7 @@ export const updateRecord = async (req, res) => {
         const { identifier, slug, parentId, isActive } = req.body;
         let cond = {
             $and: [
-                { id: { $ne: req.params.id } },
+                { _id: { $ne: req.params.id } },
                 {
                     $or: {
                         slug: AppUtility.strToSlug(slug),

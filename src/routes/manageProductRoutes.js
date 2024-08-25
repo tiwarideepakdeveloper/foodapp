@@ -5,8 +5,8 @@ import { deleteRecord, fetchRecord, fetchRecords, saveRecord, updateRecord } fro
 
 const manageProductRoute = express.Router();
 
-manageProductRoute.get('/', [auth, checkPermission('product_view')], fetchRecords);
-manageProductRoute.get('/:id', [auth, checkPermission('product_view')], fetchRecord);
+manageProductRoute.get('/:page?', [auth, checkPermission('product_view')], fetchRecords);
+manageProductRoute.get('/view/:id', [auth, checkPermission('product_view')], fetchRecord);
 manageProductRoute.post('/', [auth, checkPermission('product_create')], saveRecord);
 manageProductRoute.put('/:id', [auth, checkPermission('product_update')], updateRecord);
 manageProductRoute.delete('/:id', [auth, checkPermission('product_delete')], deleteRecord);

@@ -8,6 +8,9 @@ export const fetchRecords = async (req, res) => {
     try {
         let { page } = req.params;
         page = page || 1;
+        if (isNaN(page)) {
+            return ResponseHandler.badRequest(res, await Label.getLabel('PAGE_SHOULD_BE_A_NUMBER', req.langCode));
+        }
         const brand = await ProductBrand.find()
             .skip((page - 1) * AppConstant.PAGE_SIZE)
             .limit(AppConstant.PAGE_SIZE);
@@ -19,7 +22,7 @@ export const fetchRecords = async (req, res) => {
 
 export const fetchRecord = async (req, res) => {
     try {
-        const brand = await ProductBrand.findById(req.params);
+        const brand = await ProductBrand.findById(req.params.id);
         return ResponseHandler.success(res, await Label.getLabel('SUCCESS', req.langCode), brand);
     } catch (error) {
         return ResponseHandler.badRequest(res, await Label.getLabel('ERROR_FOUND_IN_OPERATIONS', req.langCode));
@@ -55,12 +58,12 @@ export const updateRecord = async (req, res) => {
         const { identifier, slug, isActive } = req.body;
         let cond = {
             $and: [
-                { id: { $ne: req.params.id } },
+                { _id: { $ne: req.params.id } },
                 {
-                    $or: {
-                        slug: AppUtility.strToSlug(slug),
-                        identifier: identifier
-                    }
+                    $or: [
+                        { slug: AppUtility.strToSlug(slug) },
+                        { identifier: identifier }
+                    ]
                 }
             ]
         };
