@@ -29,6 +29,10 @@ const sizeSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    isActive: {
+        type: Boolean,
+        required: true
+    }
 });
 
 export default mongoose.model('ProductSize', sizeSchema);

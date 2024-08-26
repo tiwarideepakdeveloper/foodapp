@@ -12,6 +12,7 @@ import categoryRoute from "./routes/categoryRoutes.js";
 import brandRoute from "./routes/brandRoutes.js";
 import productOptionRoute from "./routes/productOptionRoutes.js";
 import manageProductRoute from "./routes/manageProductRoutes.js";
+import manageProductItemRoute from "./routes/manageProductItemRoutes.js";
 
 const app = express();
 
@@ -36,3 +37,4 @@ app.use("/api/category", appData, categoryRoute);
 app.use("/api/brand", appData, brandRoute);
 app.use("/api/product-option", appData, productOptionRoute);
 app.use("/api/manage-product", appData, manageProductRoute);
+app.use("/api/manage-product-item", appData, manageProductItemRoute);
