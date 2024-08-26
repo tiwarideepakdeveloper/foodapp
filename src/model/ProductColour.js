@@ -5,6 +5,14 @@ const colourSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    sortOrder: {
+        type: Number,
+        default: 0
+    },
+    isActive: {
+        type: Boolean,
+        required: true
+    },
     translations: {
         type: Object, // code : {name: '', desc: ''}
     }

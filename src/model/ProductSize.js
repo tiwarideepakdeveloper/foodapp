@@ -9,6 +9,10 @@ const sizeSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    isActive: {
+        type: Boolean,
+        required: true
+    },
     translations: {
         type: Object, // code : {name: '', desc: ''}
     }
