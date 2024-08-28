@@ -35,4 +35,4 @@ const sizeSchema = new mongoose.Schema({
     }
 });
 
-export default mongoose.model('ProductSize', sizeSchema);
+export default mongoose.model('ProductItem', sizeSchema);
