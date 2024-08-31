@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
+import cors from "cors";
 import userRoute from "./routes/userRoutes.js";
 import authRoute from "./routes/authRoutes.js";
 import imageRoute from "./routes/imageRoutes.js";
@@ -15,6 +16,12 @@ import manageProductRoute from "./routes/manageProductRoutes.js";
 import manageProductItemRoute from "./routes/manageProductItemRoutes.js";
 
 const app = express();
+
+let corsOptions = {
+    origin : ['http://localhost:5173'],
+}
+
+app.use(cors(corsOptions))
 
 app.use(bodyParser.json());
 dotenv.config();

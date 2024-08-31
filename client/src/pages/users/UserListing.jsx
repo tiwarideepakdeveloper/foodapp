@@ -1,15 +1,14 @@
+import { useState, useEffect } from 'react';
+
 export default function UserListing(){
-    
-    const [photos, setPhotos] = useState([]);
-    
+        
     useEffect(() => {
-      fetch('https://jsonplaceholder.typicode.com/photos')
+      fetch('http://localhost:8000/api/user')
         .then((res) => {
           return res.json();
         })
         .then((data) => {
-          console.log(data);
-          setPhotos(data);
+          
         });
     }, []);
 
