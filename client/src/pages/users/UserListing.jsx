@@ -1,15 +1,28 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from "../../utils/AuthProvider";
 
 export default function UserListing(){
-        
+
+    const { token }  = useAuth();
+    
+    const [records, setRecords] = useState([]);
+
     useEffect(() => {
-      fetch('http://localhost:8000/api/user')
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
-          
-        });
+        const fetchData = async () => {
+
+            const response = await fetch('http://localhost:8000/api/user', {
+                method: 'get',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                    
+                }
+            });
+            const data = await response.json();
+            setRecords(data.data);
+        }
+
+        fetchData();
     }, []);
 
     return (
@@ -21,10 +34,15 @@ export default function UserListing(){
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Navjot</td>
-                    <td>Singh</td>
-                </tr>
+                {
+                    records.map((user) => (
+                    <tr key={user._id}>
+                        <td>{user.firstName}</td>
+                        <td>{user.email}</td>
+                    </tr>
+                    ))
+                }
+                
             </tbody>
         </table>
     );

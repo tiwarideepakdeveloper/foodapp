@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../utils/AuthProvider";
 
 export default function Login() {
-
+    const { login, isAuthenticated } = useAuth();
+    let navigate = useNavigate()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [responseMsg, setResponseMsg]  = useState("");
@@ -29,6 +32,9 @@ export default function Login() {
         if (response.ok) {
             setIsSuccess(true);
             clearForm();
+            login(data.data.token);
+            navigate('/user');
+            
         }
         setResponseMsg(data.message);
 
