@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const sizeSchema = new mongoose.Schema({
+const itemSchema = new mongoose.Schema({
     identifier: {
         type: String,
         required: true,
@@ -35,4 +35,4 @@ const sizeSchema = new mongoose.Schema({
     }
 });
 
-export default mongoose.model('ProductSize', sizeSchema);
+export default mongoose.model('ProductItem', itemSchema);
