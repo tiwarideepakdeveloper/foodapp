@@ -8,6 +8,10 @@ import EmailTemplate from '../model/EmailTemplate.js';
 import Label from '../model/Label.js';
 import User from "../model/User.js";
 
+export const loginView = async (req, res) => {
+    res.send('Hii');
+}
+
 export const register = async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
     try {

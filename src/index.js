@@ -2,6 +2,10 @@ import express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
+import session from 'express-session';
+import flash from 'connect-flash';
+import methodOverride from 'method-override';
+
 import userRoute from "./routes/userRoutes.js";
 import authRoute from "./routes/authRoutes.js";
 import imageRoute from "./routes/imageRoutes.js";
@@ -13,11 +17,25 @@ import brandRoute from "./routes/brandRoutes.js";
 import productOptionRoute from "./routes/productOptionRoutes.js";
 import manageProductRoute from "./routes/manageProductRoutes.js";
 import manageProductItemRoute from "./routes/manageProductItemRoutes.js";
+import homeRoute from "./routes/homeRoutes.js";
 
 const app = express();
-
-app.use(bodyParser.json());
 dotenv.config();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(process.cwd() + '/src/assets/'));
+app.use(session({
+    secret: process.env.JWT_SECRET,
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(methodOverride('_method'));
+app.use(flash());
+app.use(appData);
+
+app.set('views', process.cwd() + '/src/views');
+app.set('view engine', 'ejs');
+
 
 mongoose.connect(process.env.MONGO_URL).then(() => {
     console.log("Database connected successfull.");
@@ -28,13 +46,14 @@ mongoose.connect(process.env.MONGO_URL).then(() => {
     console.log(error);
 });
 
-app.use("/api/auth", appData, authRoute);
-app.use("/api/user", appData, userRoute);
-app.use("/api/image", appData, imageRoute);
-app.use("/api/setting", appData, settingRoute);
-app.use("/api/role", appData, rolesRoute);
-app.use("/api/category", appData, categoryRoute);
-app.use("/api/brand", appData, brandRoute);
-app.use("/api/product-option", appData, productOptionRoute);
-app.use("/api/manage-product", appData, manageProductRoute);
-app.use("/api/manage-product-item", appData, manageProductItemRoute);
+app.use("/", appData, homeRoute);
+app.use("/auth", appData, authRoute);
+app.use("/user", appData, userRoute);
+app.use("/image", appData, imageRoute);
+app.use("/setting", appData, settingRoute);
+app.use("/role", appData, rolesRoute);
+app.use("/category", appData, categoryRoute);
+app.use("/brand", appData, brandRoute);
+app.use("/product-option", appData, productOptionRoute);
+app.use("/manage-product", appData, manageProductRoute);
+app.use("/manage-product-item", appData, manageProductItemRoute);

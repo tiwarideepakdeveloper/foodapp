@@ -2,9 +2,11 @@ import express from "express";
 import { validate } from "../middleware/validate.js";
 import { auth } from "../middleware/authMiddleware.js";
 import { forgetPassSchema, loginSchema, registerSchema, updatePassSchema, verifyOtpSchema, updateProfileSchema } from "../validations/authValidation.js";
-import { forgetPassword, login, register, updatePassword, verifyOtp, fetchProfile, updateProfileImg } from "../controller/authController.js";
+import { loginView, forgetPassword, login, register, updatePassword, verifyOtp, fetchProfile, updateProfileImg } from "../controller/authController.js";
 
 const authRoute = express.Router();
+
+authRoute.get('/login', loginView);
 
 authRoute.post('/register', validate(registerSchema), register);
 authRoute.post('/login', validate(loginSchema), login);

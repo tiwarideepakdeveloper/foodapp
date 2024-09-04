@@ -44,4 +44,8 @@ export class ResponseHandler {
             error
         });
     }
+
+    static renderView(res, name, data = {}) {
+        res.render(name, data);
+    }
 }
