@@ -18,6 +18,7 @@ import productOptionRoute from "./routes/productOptionRoutes.js";
 import manageProductRoute from "./routes/manageProductRoutes.js";
 import manageProductItemRoute from "./routes/manageProductItemRoutes.js";
 import homeRoute from "./routes/homeRoutes.js";
+import dashboardRoute from "./routes/dashboardRoutes.js";
 
 const app = express();
 dotenv.config();
@@ -48,12 +49,14 @@ mongoose.connect(process.env.MONGO_URL).then(() => {
 
 app.use("/", appData, homeRoute);
 app.use("/auth", appData, authRoute);
-app.use("/user", appData, userRoute);
 app.use("/image", appData, imageRoute);
 app.use("/setting", appData, settingRoute);
-app.use("/role", appData, rolesRoute);
-app.use("/category", appData, categoryRoute);
-app.use("/brand", appData, brandRoute);
-app.use("/product-option", appData, productOptionRoute);
-app.use("/manage-product", appData, manageProductRoute);
-app.use("/manage-product-item", appData, manageProductItemRoute);
+
+app.use("/dashboard", appData, dashboardRoute);
+app.use("/dashboard/user", appData, userRoute);
+app.use("/dashboard/role", appData, rolesRoute);
+app.use("/dashboard/category", appData, categoryRoute);
+app.use("/dashboard/brand", appData, brandRoute);
+app.use("/dashboard/product-option", appData, productOptionRoute);
+app.use("/dashboard/manage-product", appData, manageProductRoute);
+app.use("/dashboard/manage-product-item", appData, manageProductItemRoute);
