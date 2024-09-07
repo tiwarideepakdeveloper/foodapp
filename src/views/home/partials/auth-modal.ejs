@@ -4,74 +4,162 @@
         <div class="modal-content">
             <div class="modal-header bg-secondary">
                 <ul class="nav nav-tabs card-header-tabs" role="tablist">
-                    <li class="nav-item"><a class="nav-link fw-medium active" href="#signin-tab" data-bs-toggle="tab"
-                            role="tab" aria-selected="true"><i class="ci-unlocked me-2 mt-n1"></i>Sign in</a></li>
-                    <li class="nav-item"><a class="nav-link fw-medium" href="#signup-tab" data-bs-toggle="tab"
-                            role="tab" aria-selected="false"><i class="ci-user me-2 mt-n1"></i>Sign up</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-medium active" href="#signin-tab" data-bs-toggle="tab" role="tab" aria-selected="true">
+                            <i class="ci-unlocked me-2 mt-n1"></i><%= labels.LBL_SIGN_IN %>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-medium" href="#signup-tab" data-bs-toggle="tab" role="tab" aria-selected="false">
+                            <i class="ci-user me-2 mt-n1"></i><%= labels.LBL_SIGN_UP %>
+                        </a>
+                    </li>
                 </ul>
                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body tab-content py-4">
-                <form class="needs-validation tab-pane fade show active" autocomplete="off" novalidate id="signin-tab">
+                <form class="tab-pane fade show active" autocomplete="off" id="signin-tab">
                     <div class="mb-3">
-                        <label class="form-label" for="si-email">Email address</label>
-                        <input class="form-control" type="email" id="si-email" placeholder="johndoe@example.com"
-                            required>
-                        <div class="invalid-feedback">Please provide a valid email address.</div>
+                        <label class="form-label" for="si-email"><%= labels.LBL_EMAIL_ADDRESS %></label>
+                        <input class="form-control" type="email" id="si-email" name="email" placeholder="johndoe@example.com">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="si-password">Password</label>
+                        <label class="form-label" for="si-password"><%= labels.LBL_PASSWORD %></label>
                         <div class="password-toggle">
-                            <input class="form-control" type="password" id="si-password" required>
+                            <input class="form-control" type="password" id="si-password" name="password">
                             <label class="password-toggle-btn" aria-label="Show/hide password">
-                                <input class="password-toggle-check" type="checkbox"><span
-                                    class="password-toggle-indicator"></span>
+                                <input class="password-toggle-check" type="checkbox">
+                                <span class="password-toggle-indicator"></span>
                             </label>
                         </div>
                     </div>
                     <div class="mb-3 d-flex flex-wrap justify-content-between">
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="checkbox" id="si-remember">
-                            <label class="form-check-label" for="si-remember">Remember me</label>
-                        </div><a class="fs-sm" href="#">Forgot password?</a>
+                            <label class="form-check-label" for="si-remember"><%= labels.LBL_REMEMBER_ME %></label>
+                        </div>
+                        <a class="fs-sm" href="#"><%= labels.LBL_FORGOT_PASSWORD %></a>
                     </div>
-                    <button class="btn btn-primary btn-shadow d-block w-100" type="submit">Sign in</button>
+                    <button class="btn btn-primary btn-shadow d-block w-100" type="submit"><%= labels.LBL_SIGN_IN %></button>
                 </form>
-                <form class="needs-validation tab-pane fade" autocomplete="off" novalidate id="signup-tab">
+                <form class="tab-pane fade" autocomplete="off" id="signup-tab">
                     <div class="mb-3">
-                        <label class="form-label" for="su-name">Full name</label>
-                        <input class="form-control" type="text" id="su-name" placeholder="John Doe" required>
-                        <div class="invalid-feedback">Please fill in your name.</div>
+                        <label class="form-label" for="su-name"><%= labels.LBL_FIRST_NAME %></label>
+                        <input class="form-control" type="text" id="sf-name" placeholder="John" name="firstName">
                     </div>
                     <div class="mb-3">
-                        <label for="su-email">Email address</label>
-                        <input class="form-control" type="email" id="su-email" placeholder="johndoe@example.com"
-                            required>
-                        <div class="invalid-feedback">Please provide a valid email address.</div>
+                        <label class="form-label" for="su-name"><%= labels.LBL_LAST_NAME %></label>
+                        <input class="form-control" type="text" id="sl-name" placeholder="Doe" name="lastName">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="su-password">Password</label>
+                        <label for="su-email"><%= labels.LBL_EMAIL_ADDRESS %></label>
+                        <input class="form-control" type="email" id="su-email" placeholder="johndoe@example.com" name="email">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="su-password"><%= labels.LBL_PASSWORD %></label>
                         <div class="password-toggle">
-                            <input class="form-control" type="password" id="su-password" required>
+                            <input class="form-control" type="password" id="su-password" name="password">
                             <label class="password-toggle-btn" aria-label="Show/hide password">
-                                <input class="password-toggle-check" type="checkbox"><span
-                                    class="password-toggle-indicator"></span>
+                                <input class="password-toggle-check" type="checkbox">
+                                <span class="password-toggle-indicator"></span>
                             </label>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="su-password-confirm">Confirm password</label>
+                        <label class="form-label" for="su-password-confirm"><%= labels.LBL_CONFIRM_PASSWORD %></label>
                         <div class="password-toggle">
-                            <input class="form-control" type="password" id="su-password-confirm" required>
+                            <input class="form-control" type="password" id="su-password-confirm"  name="password_confirmation">
                             <label class="password-toggle-btn" aria-label="Show/hide password">
-                                <input class="password-toggle-check" type="checkbox"><span
-                                    class="password-toggle-indicator"></span>
+                                <input class="password-toggle-check" type="checkbox">
+                                <span class="password-toggle-indicator"></span>
                             </label>
                         </div>
                     </div>
-                    <button class="btn btn-primary btn-shadow d-block w-100" type="submit">Sign up</button>
+                    <button class="btn btn-primary btn-shadow d-block w-100" type="submit"><%= labels.LBL_SIGN_UP %></button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+<div class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+        <div class="toast-body">
+        Hello, world! This is a toast message.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+</div>
+<script>
+    const ajaxHandler = new AjaxHandler();
+    $(document).ready(function () {
+        $("#signin-tab").validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: true
+                },
+                password: {
+                    required: true
+                }
+            }
+        });
+
+        $("#signin-tab").on("submit", function (e) {
+            if(!$(this).valid()) return;
+            e.preventDefault();
+            TastyGoToast.process('Processing..');
+            const succCallBackFun = function(res){
+                TastyGoToast.resetToast();
+                TastyGoToast.success(res.message);
+                location.href = '/';
+            };
+            const errCallBackFun = function(res){
+                TastyGoToast.resetToast();
+                TastyGoToast.danger(res.responseJSON.message);
+            };
+            ajaxHandler.post('/auth/login', $(this).serialize(), succCallBackFun, errCallBackFun)
+        });
+
+        $("#signup-tab").validate({
+            rules: {
+                firstName: {
+                    required: true
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                password: {
+                    required: true
+                },
+                password_confirmation: {
+                    required: true,
+                    equalTo: "#su-password"
+                }
+            },
+            errorElement: 'div',
+            errorPlacement: function(error, element) {
+                error.addClass('invalid-feedback');
+                error.insertAfter(element);
+            }
+        });
+
+        $("#signup-tab").on("submit", function (e) {
+            console.log($(this).valid());
+            
+            if(!$(this).valid()) return;
+            e.preventDefault();
+            TastyGoToast.process('Processing..');
+            const succCallBackFun = function(res){
+                TastyGoToast.resetToast();
+                TastyGoToast.success(res.message);
+                location.href = '/';
+            };
+            const errCallBackFun = function(res){
+                TastyGoToast.resetToast();
+                TastyGoToast.danger(res.responseJSON.message);
+            };
+            ajaxHandler.post('/auth/register', $(this).serialize(), succCallBackFun, errCallBackFun)
+        });
+    });
+</script>

@@ -6,8 +6,6 @@ import { loginView, forgetPassword, login, register, updatePassword, verifyOtp, 
 
 const authRoute = express.Router();
 
-authRoute.get('/login', loginView);
-
 authRoute.post('/register', validate(registerSchema), register);
 authRoute.post('/login', validate(loginSchema), login);
 

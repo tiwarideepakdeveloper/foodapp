@@ -14,7 +14,10 @@ export const registerSchema = Joi.object({
     password: Joi.string().min(6).required().messages({
         'string.min': 'PASSWORD_MUST_BE_6_CHARACTER_LONG',
         'string.empty': 'PASSWORD_IS_REQUIRED'
-    })
+    }),
+    password_confirmation: Joi.string().required().valid(Joi.ref('password')).messages({
+        'any.only': 'Passwords do not match',
+    }),
 });
 
 export const loginSchema = Joi.object({

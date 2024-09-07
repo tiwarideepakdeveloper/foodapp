@@ -1,4 +1,5 @@
 import moment from 'moment/moment.js';
+import session from 'express-session';
 
 import { ResponseHandler } from "../utility/responseHandler.js";
 import { AppUtility } from '../utility/AppUtility.js';
@@ -28,7 +29,6 @@ export const register = async (req, res) => {
         return ResponseHandler.created(
             res,
             await Label.getLabel('USER_REGISTERED_SUCCESSFULLY!', req.langCode),
-            await user.save()
         );
     } catch (error) {
         return ResponseHandler.serverError(res, await Label.getLabel('SERVER_ERROR', req.langCode), error);
@@ -48,9 +48,8 @@ export const login = async (req, res) => {
                 await Label.getLabel('YOUR_PASSWORD_IS_NOT_CORRECT', req.langCode)
             );
         }
-        user = user.toJSON();
-        user.token = AppUtility.genrateJwtToken(user._id);
-        return ResponseHandler.success(res, await Label.getLabel('USER_LOGGEDIN_SUCCESS', req.langCode), user);
+        req.session.user = user.toJSON();
+        return ResponseHandler.success(res, await Label.getLabel('USER_LOGGEDIN_SUCCESS', req.langCode));
     } catch (error) {
         return ResponseHandler.serverError(res, await Label.getLabel('SERVER_ERROR', req.langCode));
     }

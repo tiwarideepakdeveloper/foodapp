@@ -19,6 +19,7 @@ labelSchema.statics.getLabel = async function (key, code = 'en') {
         const selfClass = new this({ key });
         selfClass.translations = selfClass.translations || {};
         selfClass.translations[code] = key.replaceAll('_', ' ').toLowerCase();
+        selfClass.translations[code] = selfClass.translations[code].charAt(0).toUpperCase() + selfClass.translations[code].slice(1);
         await selfClass.save();
         return selfClass.translations[code];
     } catch (error) {

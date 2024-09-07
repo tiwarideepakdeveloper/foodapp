@@ -11,7 +11,7 @@ import authRoute from "./routes/authRoutes.js";
 import imageRoute from "./routes/imageRoutes.js";
 import settingRoute from "./routes/settingRoutes.js";
 import rolesRoute from "./routes/roleRoutes.js";
-import { appData } from "./middleware/appMiddleware.js";
+import { appData, homePageData } from "./middleware/appMiddleware.js";
 import categoryRoute from "./routes/categoryRoutes.js";
 import brandRoute from "./routes/brandRoutes.js";
 import productOptionRoute from "./routes/productOptionRoutes.js";
@@ -47,7 +47,7 @@ mongoose.connect(process.env.MONGO_URL).then(() => {
     console.log(error);
 });
 
-app.use("/", appData, homeRoute);
+app.use("/", [appData, homePageData], homeRoute);
 app.use("/auth", appData, authRoute);
 app.use("/image", appData, imageRoute);
 app.use("/setting", appData, settingRoute);
