@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import session from 'express-session';
 import flash from 'connect-flash';
 import methodOverride from 'method-override';
+import MongoStore from 'connect-mongo';
 
 import userRoute from "./routes/userRoutes.js";
 import authRoute from "./routes/authRoutes.js";
@@ -20,23 +21,9 @@ import manageProductItemRoute from "./routes/manageProductItemRoutes.js";
 import homeRoute from "./routes/homeRoutes.js";
 import dashboardRoute from "./routes/dashboardRoutes.js";
 
+
 const app = express();
 dotenv.config();
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(process.cwd() + '/src/assets/'));
-app.use(session({
-    secret: process.env.JWT_SECRET,
-    resave: false,
-    saveUninitialized: false
-}));
-app.use(methodOverride('_method'));
-app.use(flash());
-app.use(appData);
-
-app.set('views', process.cwd() + '/src/views');
-app.set('view engine', 'ejs');
-
 
 mongoose.connect(process.env.MONGO_URL).then(() => {
     console.log("Database connected successfull.");
@@ -46,6 +33,32 @@ mongoose.connect(process.env.MONGO_URL).then(() => {
 }).catch((error) => {
     console.log(error);
 });
+
+// Create a MongoStore instance
+const mongoStore = MongoStore.create({
+    mongoUrl: process.env.MONGO_URL,
+    collectionName: 'sessions'
+});
+
+app.use(session({
+    secret: process.env.JWT_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: mongoStore,
+    cookie: { secure: process.env.NODE_ENV === 'production', maxAge: 24 * 60 * 60 * 1000 } // 1 day
+}));
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(process.cwd() + '/assets/'));
+app.use(methodOverride('_method'));
+app.use(flash());
+app.use(appData);
+
+app.set('views', process.cwd() + '/views');
+app.set('view engine', 'ejs');
+
+
+
 
 app.use("/", [appData, homePageData], homeRoute);
 app.use("/auth", appData, authRoute);

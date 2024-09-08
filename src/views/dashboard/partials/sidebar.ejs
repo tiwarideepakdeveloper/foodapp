@@ -11,8 +11,8 @@
                     title="Reward points">384</span><img class="rounded-circle"
                     src="img/team/01.jpg" alt="Susan Gardner"></div>
             <div class="ps-md-3">
-                <h3 class="fs-base mb-0"><%= langCode %></h3><span
-                    class="text-accent fs-sm">s.gardner@example.com</span>
+                <h3 class="fs-base mb-0"><%= loggedUser.firstName + ' ' + loggedUser.lastName %></h3><span
+                    class="text-accent fs-sm"><%- loggedUser.email %></span>
             </div>
         </div><a class="btn btn-primary d-lg-none mb-2 mt-3 mt-md-0"
             href="#account-menu" data-bs-toggle="collapse"
