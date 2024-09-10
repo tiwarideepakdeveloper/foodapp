@@ -4,6 +4,10 @@ import ProductBrand from "../model/ProductBrand.js";
 import { AppUtility } from "../utility/AppUtility.js";
 import { ResponseHandler } from "../utility/responseHandler.js";
 
+export const index = async (req, res) => {
+    return ResponseHandler.render(res, 'dashboard/brand/index', {loggedUser: req.session.user});
+}
+
 export const fetchRecords = async (req, res) => {
     try {
         let { page } = req.params;
@@ -14,7 +18,8 @@ export const fetchRecords = async (req, res) => {
         const brand = await ProductBrand.find()
             .skip((page - 1) * AppConstant.PAGE_SIZE)
             .limit(AppConstant.PAGE_SIZE);
-        return ResponseHandler.success(res, await Label.getLabel('SUCCESS', req.langCode), brand);
+        // return ResponseHandler.success(res, await Label.getLabel('SUCCESS', req.langCode), brand);
+        return ResponseHandler.render(res, 'brand/index');
     } catch (error) {
         return ResponseHandler.badRequest(res, await Label.getLabel('ERROR_FOUND_IN_OPERATIONS', req.langCode));
     }
