@@ -8,6 +8,10 @@ export const index = async (req, res) => {
     return ResponseHandler.render(res, 'dashboard/brand/index', {loggedUser: req.session.user});
 }
 
+export const create = async (req, res) => {
+    return ResponseHandler.render(res, 'dashboard/brand/create', {loggedUser: req.session.user}); 
+}
+
 export const fetchRecords = async (req, res) => {
     try {
         let { page } = req.params;

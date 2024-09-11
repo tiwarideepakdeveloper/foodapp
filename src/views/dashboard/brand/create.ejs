@@ -1,0 +1,87 @@
+<section class="col-lg-8">
+    <!-- Toolbar-->
+    <div class="d-flex justify-content-between align-items-center pt-lg-2 pb-4 pb-lg-5 mb-lg-3">
+        <div class="d-flex align-items-center">
+            <label class="d-none d-lg-block fs-sm text-light text-nowrap opacity-75 me-2" for="order-sort">Sort
+                orders:</label>
+            <label class="d-lg-none fs-sm text-nowrap opacity-75 me-2" for="order-sort">Sort
+                orders:</label>
+            <select class="form-select" id="order-sort">
+                <option>All</option>
+                <option>Delivered</option>
+                <option>In Progress</option>
+                <option>Delayed</option>
+                <option>Canceled</option>
+            </select>
+        </div><a class="btn btn-primary btn-sm d-none d-lg-inline-block" href="/dashboard/logout"><i
+                class="ci-sign-out me-2"></i>Sign out</a>
+    </div>
+    <!-- Orders list-->
+    <form id="brand-create-form">
+        <div class="mb-3">
+            <label for="" class="form-label">Name</label>
+            <input type="text" class="form-control" name="name">
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">Slug</label>
+            <input type="text" class="form-control" name="slug">
+        </div>
+        <div class="mb-3">
+            <label for="">Is Active?</label>
+            <select name="isActive" id="" class="form-control">
+                <option value="1">Yes</option>
+                <option value="0">NO</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary btn-shadow d-block w-100" type="submit">
+                <%= labels.LBL_SIGN_UP %>
+            </button>
+        </div>
+    </form>
+
+</section>
+
+<script>
+    const ajaxHandler = new AjaxHandler();
+    $(document).ready(function () {
+        $("#brand-create-form").validate({
+            rules: {
+                name: {
+                    required: true
+                },
+                slug: {
+                    required: true,
+                    email: true
+                },
+                isActive: {
+                    required: true
+                },
+            },
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                error.insertAfter(element);
+            }
+        });
+
+        $("#brand-create-form").on("submit", function (e) {
+            console.log($(this).valid());
+
+            if (!$(this).valid()) return;
+            e.preventDefault();
+            TastyGoToast.process('Processing..');
+            const succCallBackFun = function (res) {
+                TastyGoToast.resetToast();
+                TastyGoToast.success(res.message);
+                location.href = '/';
+            };
+            const errCallBackFun = function (res) {
+                TastyGoToast.resetToast();
+                TastyGoToast.danger(res.responseJSON.message);
+            };
+            ajaxHandler.post('/brand', $(this).serialize(), succCallBackFun, errCallBackFun)
+        });
+
+    });
+</script>
