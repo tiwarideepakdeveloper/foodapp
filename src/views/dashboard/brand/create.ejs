@@ -20,7 +20,7 @@
     <form id="brand-create-form">
         <div class="mb-3">
             <label for="" class="form-label">Name</label>
-            <input type="text" class="form-control" name="name">
+            <input type="text" class="form-control" name="identifier">
         </div>
         <div class="mb-3">
             <label for="" class="form-label">Slug</label>
@@ -29,8 +29,8 @@
         <div class="mb-3">
             <label for="">Is Active?</label>
             <select name="isActive" id="" class="form-control">
-                <option value="1">Yes</option>
-                <option value="0">NO</option>
+                <option value="true">Yes</option>
+                <option value="false">NO</option>
             </select>
         </div>
         <div class="mb-3">
@@ -47,12 +47,11 @@
     $(document).ready(function () {
         $("#brand-create-form").validate({
             rules: {
-                name: {
+                identifier: {
                     required: true
                 },
                 slug: {
                     required: true,
-                    email: true
                 },
                 isActive: {
                     required: true
@@ -74,13 +73,15 @@
             const succCallBackFun = function (res) {
                 TastyGoToast.resetToast();
                 TastyGoToast.success(res.message);
-                location.href = '/';
+                setTimeout(function(){
+                    location.href = '/dashboard/brand';
+                }, 3000);
             };
             const errCallBackFun = function (res) {
                 TastyGoToast.resetToast();
                 TastyGoToast.danger(res.responseJSON.message);
             };
-            ajaxHandler.post('/brand', $(this).serialize(), succCallBackFun, errCallBackFun)
+            ajaxHandler.post('/dashboard/brand', $(this).serialize(), succCallBackFun, errCallBackFun)
         });
 
     });

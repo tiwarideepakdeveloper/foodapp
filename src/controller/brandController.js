@@ -5,7 +5,16 @@ import { AppUtility } from "../utility/AppUtility.js";
 import { ResponseHandler } from "../utility/responseHandler.js";
 
 export const index = async (req, res) => {
-    return ResponseHandler.render(res, 'dashboard/brand/index', {loggedUser: req.session.user});
+    let { page } = req.params;
+    page = page || 1;
+    if (isNaN(page)) {
+        return ResponseHandler.badRequest(res, await Label.getLabel('PAGE_SHOULD_BE_A_NUMBER', req.langCode));
+    }
+    const brand = await ProductBrand.find().select('identifier slug')
+        .skip((page - 1) * AppConstant.PAGE_SIZE)
+        .limit(AppConstant.PAGE_SIZE);
+
+    return ResponseHandler.render(res, 'dashboard/brand/index', {loggedUser: req.session.user, brands: brand});
 }
 
 export const create = async (req, res) => {
@@ -19,11 +28,10 @@ export const fetchRecords = async (req, res) => {
         if (isNaN(page)) {
             return ResponseHandler.badRequest(res, await Label.getLabel('PAGE_SHOULD_BE_A_NUMBER', req.langCode));
         }
-        const brand = await ProductBrand.find()
+        const brand = await ProductBrand.find().select('identifier slug')
             .skip((page - 1) * AppConstant.PAGE_SIZE)
             .limit(AppConstant.PAGE_SIZE);
-        // return ResponseHandler.success(res, await Label.getLabel('SUCCESS', req.langCode), brand);
-        return ResponseHandler.render(res, 'brand/index');
+         return ResponseHandler.success(res, await Label.getLabel('SUCCESS', req.langCode), brand);
     } catch (error) {
         return ResponseHandler.badRequest(res, await Label.getLabel('ERROR_FOUND_IN_OPERATIONS', req.langCode));
     }
