@@ -111,7 +111,9 @@
             const succCallBackFun = function(res){
                 TastyGoToast.resetToast();
                 TastyGoToast.success(res.message);
-                location.href = '/';
+                setTimeout(function(){
+                    location.href = '/';
+                }, 1000);
             };
             const errCallBackFun = function(res){
                 TastyGoToast.resetToast();
