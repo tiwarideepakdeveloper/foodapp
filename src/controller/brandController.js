@@ -14,7 +14,11 @@ export const index = async (req, res) => {
         .skip((page - 1) * AppConstant.PAGE_SIZE)
         .limit(AppConstant.PAGE_SIZE);
 
-    return ResponseHandler.render(res, 'dashboard/brand/index', {loggedUser: req.session.user, brands: brand});
+    return ResponseHandler.render(res, 'dashboard/brand/index', {
+        loggedUser: req.session.user, brands: brand,
+        page: page, totalRecords: await ProductBrand.countDocuments(),
+        pageSize: AppConstant.PAGE_SIZE,
+    });
 }
 
 export const create = async (req, res) => {

@@ -65,8 +65,6 @@
         });
 
         $("#brand-create-form").on("submit", function (e) {
-            console.log($(this).valid());
-
             if (!$(this).valid()) return;
             e.preventDefault();
             TastyGoToast.process('Processing..');
@@ -75,7 +73,7 @@
                 TastyGoToast.success(res.message);
                 setTimeout(function(){
                     location.href = '/dashboard/brand';
-                }, 3000);
+                }, 2000);
             };
             const errCallBackFun = function (res) {
                 TastyGoToast.resetToast();
